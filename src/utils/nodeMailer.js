@@ -7,7 +7,7 @@ import nodemailer from 'nodemailer';
 // send email
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
-  port: process.env.SMTP_PORT,
+  port: +process.env.SMTP_PORT,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
@@ -36,8 +36,8 @@ export const sendEmailVerificationLinkEmail = ({ email, fName, url }) => {
     <p>Thank you for creating account with us. Click the button below to verify your account</p>
     
     <p>
-        <a href= '${url}'></a>
-        <button style= 'background: green; padding: 2rem; color: white, fonnt-weight: bold'>Verify</button>
+        <a href= ${url}>
+        <button style= 'background: green; padding: 2rem; color: white, fonnt-weight: bold'>Verify</button></a>
     </p>
     
     <br />
@@ -72,6 +72,40 @@ export const sendEmailVerifyNotification = ({ email, fName }) => {
       <br />
       
       <p>Thank you for your time to verify your email.  Your email has been  verified. You may login now.</p>
+      
+      
+      
+      <br />
+      
+      <br />
+      <br />
+      -----------
+      
+      <p>
+          Regards,
+          <br />
+          Tech Gear
+          <br />
+          www.mysite.com
+      
+      
+      </p>`, // html body
+  };
+  emailSender(body);
+};
+
+export const sendOtpEmail = ({ email, fName, otp }) => {
+  const body = {
+    from: `"Tech Gear" <${process.env.SMTP_USER}>`, // sender address
+    to: email, // list of receivers
+    subject: 'Your OTP for password reset ', // Subject line
+    text: `Hello ${fName}, Here is your OTP ${otp}.`, // plain text body
+    html: `<p>Hello ${fName}</p>
+      <br />
+      <br />
+      
+      <p>Here is your OTP to reset your password</p>
+      <p style="font-size:3rem, color:red>${otp}</p>
       
       
       
